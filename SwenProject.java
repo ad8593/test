@@ -52,8 +52,7 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
    public static ArrayList<String> foodname = new ArrayList<>();
 
    public static String foodCSVPath = "food.csv";
-   public static String dailyCSV = "src/SWENkostur/daily.csv";
-   public static String excreciseCSV = "src/SWENkostur/exercise.csv";
+   public static String logCSVPath = "log.csv";
 
    // save stage as an attribute
    private Stage stage; 
@@ -76,6 +75,9 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
    private Button btnFod = new Button("Food");
    private Button btnSD = new Button("Save Date");
    private Button btnSF = new Button("Save Food");
+   private  Label question5 = new Label("Do you need to delete any food?");
+   private Button btnYesDelete = new Button("Yes");
+   private Button btnNoDelete = new Button("No");
    
    public static void main(String[] args) {
       launch(args);
@@ -105,6 +107,9 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
       pane.getChildren().add(tfFood);
       pane.getChildren().add(question4);
       pane.getChildren().add(btnSF);
+      pane.getChildren().add(question5);
+      pane.getChildren().add(btnYesDelete);
+      pane.getChildren().add(btnNoDelete);
       
       StackPane.setAlignment(inftx, Pos.TOP_CENTER); 
       //StackPane.setAlignment(l1, Pos.CENTER_LEFT); 
@@ -125,7 +130,10 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
       pane.setMargin(btnFod, new Insets(420, 600, 500, 250));  
       pane.setMargin(question4, new Insets(480, 300, 500, 100));  
       pane.setMargin(tfFood, new Insets(550, 600, 500, 130)); 
-      pane.setMargin(btnSF, new Insets(600, 600, 500, 130));  
+      pane.setMargin(btnSF, new Insets(600, 600, 500, 130));
+      pane.setMargin(question5, new Insets(200, 600, 50, 130));
+      pane.setMargin(btnYesDelete, new Insets(200, 600, -40, 130));
+      pane.setMargin(btnNoDelete, new Insets(200, 300, -40, 130));    
       tfDate.setPrefWidth(30);
       
       question2.setVisible(false);
@@ -137,6 +145,9 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
       question4.setVisible(false);
       tfFood.setVisible(false);
       btnSF.setVisible(false);
+      question5.setVisible(false);
+      btnYesDelete.setVisible(false); 
+      btnNoDelete.setVisible(false); 
       
       tfDate.setStyle("-fx-border-color: #81c483;\r\n" +
          "    -fx-border-width: 3px;\r\n" +
@@ -167,6 +178,14 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
          "    -fx-border-style: solid;");
       
       btnSF.setStyle("-fx-border-color: #81c483;\r\n" +
+         "    -fx-border-width: 3px;\r\n" +
+         "    -fx-border-style: solid;");
+         
+      btnYesDelete.setStyle("-fx-border-color: #81c483;\r\n" +
+         "    -fx-border-width: 3px;\r\n" +
+         "    -fx-border-style: solid;");
+         
+      btnNoDelete.setStyle("-fx-border-color: #81c483;\r\n" +
          "    -fx-border-width: 3px;\r\n" +
          "    -fx-border-style: solid;");
       
@@ -201,7 +220,11 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
       
       question4.setFont(new Font("Arial", 15));
       question4.setTextFill(Color.web("#3b6941"));
-      question4.setAlignment(Pos.TOP_LEFT);   
+      question4.setAlignment(Pos.TOP_LEFT);  
+      
+      question5.setFont(new Font("Arial", 15));
+      question5.setTextFill(Color.web("#3b6941"));
+      question5.setAlignment(Pos.TOP_LEFT);  
      //  
    //       question2.setFont(new Font("Arial", 20));
    //       question2.setTextFill(Color.web("#3b6941"));
@@ -218,6 +241,15 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
                LocalDateTime now = LocalDateTime.now();  
                System.out.println(dtf.format(now));  
                dateL.setText(dtf.format(now)); 
+               
+               String dati = dateL.getText(); 
+               
+               try (PrintWriter out = new PrintWriter(new BufferedWriter(
+                new FileWriter("log.csv", true)))) {
+                  out.println(dati);
+               } catch (IOException ioe) {
+                  ioe.printStackTrace();
+               }
                
                question2.setVisible(true); 
                question3.setVisible(false); 
@@ -244,6 +276,8 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
             }
          });
          
+         
+         
       btnFod.setOnAction
             (
          new EventHandler<ActionEvent>() {
@@ -251,9 +285,35 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
                question4.setVisible(true); 
                tfFood.setVisible(true);    
                btnSF.setVisible(true);     
-            
+                      
             }
+            
          });
+         
+                  
+      btnRec.setOnAction
+            (
+         new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent evt) {               
+               
+             /* 
+             CODE TO TAKE THE INPUT AND DISPLAY IT
+               try{
+              FileReader fr = new FileReader("log.csv");
+            int i;
+            
+            while ((i = fr.read()) != -1)
+            
+            System.out.print((char)i);
+            
+            }catch(Exception e) {
+            System.out.println(e); 
+            } */
+            
+            
+               
+            }
+         });       
          
       btnSF.setOnAction
             (
@@ -266,7 +326,44 @@ public class SwenProject extends Application implements EventHandler<ActionEvent
                } catch (IOException ioe) {
                   ioe.printStackTrace();
                }
+               
+               question5.setVisible(true);
+               btnYesDelete.setVisible(true); 
+               btnNoDelete.setVisible(true); 
             }
+         });
+         
+      btnSD.setOnAction
+            (
+         new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent evt) {               
+               
+               try (PrintWriter out = new PrintWriter(new BufferedWriter(
+                new FileWriter("log.csv", true)))) {
+                  out.println(tfDate.getText());
+                  
+                  
+               } catch (IOException ioe) {
+                  ioe.printStackTrace();
+               }
+            }
+         });
+         
+      btnYesDelete.setOnAction
+            (
+         new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent evt) {
+               try{
+               // It deletes all file CONTENT 
+                  PrintWriter writer = new PrintWriter("food.csv");
+                  writer.print("");
+                  writer.close();   
+               }catch(Exception e){
+                  System.out.println(e); 
+               }
+                      
+            }
+            
          });
          
       
