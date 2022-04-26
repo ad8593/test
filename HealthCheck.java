@@ -4,21 +4,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// connecting all together
-class HealthCheck extends HealthCheckView{
+public class HealthCheck extends Application {
+   HealthCheckView hv;
+   HealthCheckModel hm;   
+   HealthCheckController hcc;
    
    public static void main(String[] args){
+      launch(args);
+   }
    
-   HealthCheckView hc = new HealthCheckView(); 
-    
-    // try catch block to start the stage 
-    try{
-    hc.start(stage);
-    }catch(Exception e){
-     System.out.println(e); 
-    }                
-   }    
+   public HealthCheck() {
+      hv = new HealthCheckView();
+      hm = new HealthCheckModel();
+      
+      hcc = new HealthCheckController(hv, hm);
+   }
+   
+   public void start(Stage _stage) throws Exception{
+      hv.show();
+   }
 } 
-
-
-
