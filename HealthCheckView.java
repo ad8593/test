@@ -30,69 +30,41 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime; 
 import static javafx.application.Application.launch;
 
-public class HealthCheckView extends Application implements EventHandler<ActionEvent>{ 
+
+public class HealthCheckView extends Stage {
 
    // save stage as an attribute
-   public static Stage stage; 
    public Scene scene; 
 
    StackPane pane = new StackPane();
 
-   // decraling them as attributes
-   public  ImageView iv;
-   public Label inftx;
-   public  Label l1;
-   public Button btnYes;
-   public  Button btnNo;
-   public  TextField tfDate;
-   public  Label dateL;
-   public  Label question2;
-   public  Label question3;
-   public  Label question4;
-   public  TextField tfFood;
-   public Button btnRec;
-   public Button btnFod;
-   public Button btnSD;
-   public Button btnSF;
-   public  Label question5;
-   public Button btnYesDelete;
-   public Button btnNoDelete;
+   ImageView iv = new ImageView("p.jpg");
+   Label inftx = new Label("Welcome to our application!");
+   Label l1 = new Label("Would you like to continue with today's date?");
+   Button btnYes = new Button("Yes");
+   Label dateL = new Label();
+   Label question2 = new Label("Enter food or recipe in the text box:");
+   Label question3 = new Label("Enter date in format: day/month/year, save it, and choose below:");
+   Label question4 = new Label("Enter food name, calorie, fat, carbohydrates and protein. EX: Hot Dog,147.0,13.6,1.1,5.1");
+   public TextField tfFood = new TextField();
+   Button btnRec = new Button("Recipe");
+   Button btnFod = new Button("Food");
+   Button btnSD = new Button("Save Date");
+   Button btnSF = new Button("Save Rec/Food");
+   Label question5 = new Label("Do you need to delete any food?");
+   Button btnYesDelete = new Button("Yes Delete");
+   Button btnNoDelete = new Button("No");
    
-   // stage
-   public void start(Stage _stage) throws Exception {    
-   
-      stage = _stage;  
-   
+   public HealthCheckView() {
       pane.setMinWidth(900);
       pane.setMinHeight(600);
-      
-      iv = new ImageView("p.jpg");
-      inftx = new Label("Welcome to our application!");
-      l1 = new Label("Would you like to continue with today's date?");
-      btnYes = new Button("Yes");
-      btnNo = new Button("No, I will put another");
-      tfDate = new TextField();
-      dateL = new Label();
-      question2 = new Label("What would you like to add?");
-      question3 = new Label("Enter date in format: day/month/year, save it, and choose below:");
-      question4 = new Label("Enter food name, calorie, fat, carbohydrates and protein. EX: Hot Dog,147.0,13.6,1.1,5.1");
-      tfFood = new TextField();
-      btnRec = new Button("Recipe");
-      btnFod = new Button("Food");
-      btnSD = new Button("Save Date");
-      btnSF = new Button("Save Food");
-      question5 = new Label("Do you need to delete any food?");
-      btnYesDelete = new Button("Yes");
-      btnNoDelete = new Button("No");
                
       pane.getChildren().add(iv);
       pane.getChildren().add(inftx);
       pane.getChildren().add(btnYes);
-      pane.getChildren().add(btnNo);
       pane.getChildren().add(l1);
       pane.getChildren().add(question2);
       pane.getChildren().add(question3);
-      pane.getChildren().add(tfDate);
       pane.getChildren().add(dateL);
       pane.getChildren().add(btnRec);
       pane.getChildren().add(btnFod);
@@ -104,14 +76,14 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
       pane.getChildren().add(btnYesDelete);
       pane.getChildren().add(btnNoDelete);
       
-      StackPane.setAlignment(inftx, Pos.TOP_CENTER); 
+      StackPane.setAlignment(inftx, Pos.TOP_CENTER);
+      
+      System.out.println("aaa"); 
          
       pane.setMargin(l1, new Insets(10, 200, 500, -200));  
-      pane.setMargin(btnYes, new Insets(10, 400, 400, -250));    
-      pane.setMargin(btnNo, new Insets(10, 345, 400, -100));  
+      pane.setMargin(btnYes, new Insets(10, 400, 400, -250));  
       pane.setMargin(dateL, new Insets(80, 345, 400, -300));  
-      pane.setMargin(question3, new Insets(160, 200, 500, -200));  
-      pane.setMargin(tfDate, new Insets(220, 600, 500, 130));  
+      pane.setMargin(question3, new Insets(160, 200, 500, -200)); 
       pane.setMargin(btnSD, new Insets(300, 600, 500, 130));
       pane.setMargin(question2, new Insets(360, 200, 500, -200)); 
       pane.setMargin(btnRec, new Insets(420, 600, 500, 130));
@@ -122,11 +94,9 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
       pane.setMargin(question5, new Insets(200, 600, 50, 130));
       pane.setMargin(btnYesDelete, new Insets(200, 600, -40, 130));
       pane.setMargin(btnNoDelete, new Insets(200, 300, -40, 130));    
-      tfDate.setPrefWidth(30);
       
       question2.setVisible(false);
       question3.setVisible(false);  
-      tfDate.setVisible(false);
       btnSD.setVisible(false); 
       btnRec.setVisible(false); 
       btnFod.setVisible(false); 
@@ -137,10 +107,6 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
       btnYesDelete.setVisible(false); 
       btnNoDelete.setVisible(false); 
       
-      // design 
-      tfDate.setStyle("-fx-border-color: #81c483;\r\n" +
-         "    -fx-border-width: 3px;\r\n" +
-         "    -fx-border-style: solid;");
       tfFood.setStyle("-fx-border-color: #81c483;\r\n" +
          "    -fx-border-width: 3px;\r\n" +
          "    -fx-border-style: solid;");
@@ -148,10 +114,6 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
       btnYes.setStyle("-fx-border-color: #81c483;\r\n" +
          "    -fx-border-width: 3px;\r\n" +
           "    -fx-position: absolute;\r\n" +
-         "    -fx-border-style: solid;");
-         
-      btnNo.setStyle("-fx-border-color: #81c483;\r\n" +
-         "    -fx-border-width: 3px;\r\n" +
          "    -fx-border-style: solid;");
          
       btnRec.setStyle("-fx-border-color: #81c483;\r\n" +
@@ -176,7 +138,7 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
          
       btnNoDelete.setStyle("-fx-border-color: #81c483;\r\n" +
          "    -fx-border-width: 3px;\r\n" +
-         "    -fx-border-style: solid;");
+         "    -fx-border-style: solid;"); 
       
       pane.setBackground(new Background(new BackgroundFill(Color.web("#81c483"), CornerRadii.EMPTY, Insets.EMPTY))); 
       pane.setAlignment(Pos.CENTER);
@@ -213,15 +175,43 @@ public class HealthCheckView extends Application implements EventHandler<ActionE
       question5.setAlignment(Pos.TOP_LEFT);     
       
       Scene scene = new Scene(pane, 1000, 700);  
-      stage.setTitle("Health Check App");  
-      stage.setScene(scene);
-      scene.setFill(Color.web("#81c483"));
-           
-      stage.show(); 
+      this.setTitle("Health Check App");  
+      this.setScene(scene);
+      //this.setFill(Color.web("#81c483"));
    }  
    
-   public void handle(ActionEvent evt) {
+   public void setButtonActionEvent(EventHandler<ActionEvent> buttonEvent) {
+      btnYes.setOnAction(buttonEvent);
+      btnSF.setOnAction(buttonEvent);
+      btnYesDelete.setOnAction(buttonEvent);
    }
    
+   public void yesButtonClicked(String dati) { 
+      dateL.setText(dati);
+      
+      question2.setVisible(true); 
+      question3.setVisible(false); 
+      dateL.setVisible(true);    
+      btnSD.setVisible(false);  
+      btnRec.setVisible(true); 
+      btnFod.setVisible(true);
+      
+      tfFood.setVisible(true); 
+      btnSF.setVisible(true);    
+   }
+   
+   public String sfClicked(){
+   
+    String  a =  tfFood.getText();    
+   
+      question5.setVisible(true);
+      btnYesDelete.setVisible(true); 
+      btnNoDelete.setVisible(true); 
+      
+      return a;   
+   }
+   
+   public String buttonDeleteFoodClicked(){   
+   return "a"; 
+   }    
 }
-
