@@ -1,4 +1,4 @@
-class Recipe implements ComponentRecipe{
+class Recipe implements Component {
 
     private String name;
     private String flname;
